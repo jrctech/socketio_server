@@ -181,7 +181,19 @@ Si probamos este código en al menos dos ventanas del chat, podemos ver que los 
         socket.emit('chat:typing' username.value);
     });
 
-De esta manera al tipear testo dentro del input del mensaje se estará disparando el evento keypress y se estará enviando el nombre del usuario que está escribiendo, etiquetado con el evento 'chat:typing'.  Entonces a través de este nombre podemos recibirlo en el servidor.
+De esta manera al tipear texto dentro del input del mensaje se estará disparando el evento keypress y se estará enviando el nombre del usuario que está escribiendo, etiquetado con el evento 'chat:typing'.  Entonces a través de este nombre podemos recibirlo en el servidor.
+
+7.1) En el evento 'keypress' del input del mensaje, también podemos chequear si se ha pulsado la tecla enter, de esta forma enviamos el mensaje al servidor al detectar esta tecla:
+
+    message.addEventListener('keypress', (e) => {
+        socket.emit('chat:typing', username.value);
+        if (e.code=='Enter'){
+            socket.emit('chat:message', {
+                username: username.value, 
+                message: message.value
+            });
+        }
+    });
 
 8) En el servidor, en index.js; agregamos la escucha al evento 'chat:typing', entonces:
 

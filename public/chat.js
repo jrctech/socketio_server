@@ -14,9 +14,16 @@ btn.addEventListener('click', () => {
     });
 });
 
-message.addEventListener('keypress', () => {
+message.addEventListener('keypress', (e) => {
     socket.emit('chat:typing', username.value);
+    if (e.code=='Enter'){
+        socket.emit('chat:message', {
+            username: username.value, 
+            message: message.value
+        });
+    }
 });
+
 
 //Este evento aunque tiene el mismo nombre del evento usado para transmitir, es un proceso distinto, ya que uno está emitiendo y el otro está escuchando
 socket.on('chat:message', (data) => {  
