@@ -13,3 +13,16 @@ Si se descarga este repositorio desde GitHub, instalar las dependencias del proy
 o también:
 
         npm install
+
+Para ejecutar la aplicación, una vez instaladas las dependencias, utilizar el comando:
+
+        npm run dev
+
+este comando utiliza el paquete nodemon para reiniciar automáticamente la consola.
+
+O también:
+
+        npm start
+
+No utiliza el paquete nodemon
+
