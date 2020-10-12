@@ -17,17 +17,18 @@
 
     Esto instalará los módulos express y socket.io en la carpeta del proyecto.
 
-6) Creamos el archivo index.js y escribimos tan solo un console.log('Hello World');
+6) Creamos el archivo index.js y escribimos tan solo un `console.log('Hello World');`
 
-7)Editamos el archivo package json para colocar un nuevo script llamado "start": "node index.js"
+7) Editamos el archivo package json para colocar un nuevo script llamado `"start": "node index.js"`
 
-8)Instalar el paquete nodemon como una dependencia de desarrollo, este paquete permite una manera mas sencilla de reiniciar la consola y lo instalamos como dependencia de desarrollo y no de producción, de esta forma se instalará en otra sección correspondiente a devDependencies. el comando para instalar es:
-    npm install nodemon -D
+8) Instalar el paquete nodemon como una dependencia de desarrollo, este paquete permite una manera mas sencilla de reiniciar la consola y lo instalamos como dependencia de desarrollo y no de producción, de esta forma se instalará en otra sección correspondiente a devDependencies. el comando para instalar es:
+    `npm install nodemon -D`
 
 9) Una vez instalado, agregamos un nuevo script al archivo package.json de la siguiente manera:
-    "dev":"nodemon index.js" (puede ser cualquier nombre en lugar de dev)
+    `"dev":"nodemon index.js"`
+    (puede ser cualquier nombre en lugar de dev)
     luego en la consola, para iniciar el servidor podemos utilizar el comando:
-    npm run dev
+    `npm run dev`
     Esto iniciará la consola con el nuevo paquete y así cuando detecte que hacemos cambios en el código, éste reiniciará automáticamente el servidor.
     
 # Para comenzar a desarrollar el código del servidor:
