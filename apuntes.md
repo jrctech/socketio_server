@@ -85,39 +85,51 @@ Igualmente podemos agregar un archivo de javascript e incluirlo a través de la 
     });
     ~~~
 
-luego, para configurar el módulo socket.io, necesitamos pasarle la configuración de nuestro servidor ya creado; para ello definimos despues de iniciar el servidor, lo siguiente:
-    const io = SocketIo(server);
+    luego, para configurar el módulo socket.io, necesitamos pasarle la configuración de nuestro servidor ya creado; para ello definimos despues de iniciar el servidor, lo siguiente:
+    
+    `const io = SocketIo(server);`
 
 3) Hasta este punto el objeto io contiene toda la información acerca de la conexion con websockets, necesitamos ahora comenzar a definir los eventos que manejarán dicha conexión:
-Para el evento generado cuando un cliente se conecta:
+    Para el evento generado cuando un cliente se conecta:
 
+    ~~~
     io.on('connection', () => {
         console.log('Client connected!');
     })
+    ~~~
 
 4) Ahora, podemos acceder a toda la configuración del socket a través del navegador utilizando la URL:
     localhost:3000/socket.io/socket.io.js
-    Podemos ver que se trata de todo el código javascript necesario para que funcione la conexión por websocket, entonces necesitamos incluir este archivo en nuestro index.html a través de la etiqueta <script>, así:
-        <script type="text/javascript" src="socket.io/socket.io.js"></script>
+    Podemos ver que se trata de todo el código javascript necesario para que funcione la conexión por websocket, entonces necesitamos incluir este archivo en nuestro index.html a través de la etiqueta `<script>`, así:
+
+        `<script type="text/javascript" src="socket.io/socket.io.js"></script>`
+
     NOTA!!: Esta etiqueta debe aparecer antes de solicitar el archivo chat.js
 
     Hecho esto, una vez que entremos al navegador, si observamos en las opciones de desarrollador de chrome, vemos que el servidor ha enviado el archivo sockets.io que contiene todo este código.  Podemos utilizarlo ahora, colocando en el archivo chat.js:
+
         io();
+
     Esta variable está disponible en todo nuestro html, así que al ejecutar esta instrucción podemos ver en la consola del servidor que se ha producido el evento de una nueva conexion y se ha mostrado el mensaje 'Client connected!'.
 
 5) Cuando el cliente se conecta y se ejecuta en el servidor el evento 'connection', también se recibe la información del socket del cliente, entonces, recuperamos esa información agregando al evento lo siguiente:
+    ~~~
     io.on('connection', (socket) => {
         console.log('Client connected!', socket.id);
     })
-De esta manera recibimos la información del socket del cliente en el parámetro socket de la función que se ejecuta al conectar, entonces la podemos usar para mostrar la información por consola en el servidor, por ejemplo con socket.id mostramos el id del socket del cliente y entonces para cada nueva ventana que abramos en el navegador con la URL del servidor, se creará una nueva conexion con un id diferente, y cada ventana podrá intercambiar datos con el servidor.
+    ~~~
+
+    De esta manera recibimos la información del socket del cliente en el parámetro socket de la función que se ejecuta al conectar, entonces la podemos usar para mostrar la información por consola en el servidor, por ejemplo con socket.id mostramos el id del socket del cliente y entonces para cada nueva ventana que abramos en el navegador con la URL del servidor, se creará una nueva conexion con un id diferente, y cada ventana podrá intercambiar datos con el servidor.
 
 6) El objeto io() que ejecutamos recientemente en el archivo chat.js, podemos guardarlo en una constante llamada socket, para poder acceder a él desde el javascript que enviamos al cliente, así:
 
-    const socket = io();
+    `const socket = io();`
 
 # Para escribir el código del chat:
 
 1) Agregamos la interfaz del chat al archivo html con las secciones siguientes:
+
+    ~~~
     <div id="chat-container">
         <div id="chat-window">
             <div id="output"></div>
@@ -127,95 +139,105 @@ De esta manera recibimos la información del socket del cliente en el parámetro
         <input type="text" id="message" placeholder="Message">
         <button id="send">Send</button>
     </div>
+    ~~~
 
     La sección outputs se encargará de mostrar todos los mensajes que se vayan recibiendo, mientras que la sección de actions se encargará de mostrar algunos mensajes especiales, por ejemplo cuando un usuario está escribiendo un mensaje.
 
 2) Definimos las variables siguientes en el javascript del cliente (chat.js)
+    ~~~
     let message = document.getElementById('message');
     let username = document.getElementById('username');
     let btn = document.getElementById('send');
     let outputs = document.getElementById('outputs');
     let actions = document.getElementById('actions');
+    ~~~
 
     (let en javascript define una variable de alcance local).
 
 3) Continuamos creando un evento para el boton Send que se dispare al hacer click y que envíe los datos al servidor, así:
-
+    ~~~
     btn.addEventListener('click', () => {
         socket.emit('chat:message', {
             username: username.value, 
             message: message.value
         });
     })
+    ~~~
 
-socket.emit() envía a través del socket un nombre de evento (en este caso se ha colocado chat:message, aunque podría ser cualquier otro nombre para el evento) y además envia los datos en este caso a través de un objeto json; el cual contiene la información de los inputs username y message.
+    socket.emit() envía a través del socket un nombre de evento (en este caso se ha colocado chat:message, aunque podría ser cualquier otro nombre para el evento) y además envia los datos en este caso a través de un objeto json; el cual contiene la información de los inputs username y message.
 
 4) en nuestro servidor, en index.js ahora colocamos el código para que reaccione a este evento, para esto, dentro del evento 'connection'; donde ya tenemos definido el socket del cliente como socket, colocamos:
-
+    ~~~
     io.on('connection', (socket) => {
         console.log('Client connected!', socket.id);
         socket.on('chat:message', (data) => {
             console.log(data);
         })
     })
-De esta manera, al recibir los datos que hemos enviado desde el navegador, el servidor dispara el evento 'chat:message' que hemos creado y muestra por consola los datos obtenidos, en este caso muestra el objeto json que contiene el username y el message.
+    ~~~
+
+    De esta manera, al recibir los datos que hemos enviado desde el navegador, el servidor dispara el evento 'chat:message' que hemos creado y muestra por consola los datos obtenidos, en este caso muestra el objeto json que contiene el username y el message.
 
 5) En lugar de mostrar estos datos en la consola del servidor, queremos poder enviarlos a todos los usuarios que esten conectados, para esto, utilizamos el siguiente código:
-
+    ~~~
     io.on('connection', (socket) => {
         console.log('Client connected!', socket.id);
         socket.on('chat:message', (data) => {
             io.socket.emit('chat:message', data);
         })
     })
+    ~~~
 
-Observamos que se utiliza io.socket.emit(), ya que tomamos el objeto io, es decir la conexión completa y de esta manera enviamos a todos los clientes conectados.  También hemos utilizado el mismo nombre de evento 'chat:message' para emitir el mensaje de vuelta al cliente, aunque se pudo haber utilizado un nombre diferente, en todo caso en el cliente debemos recibirlo con el mismo nombre que se envió.
+    Observamos que se utiliza io.socket.emit(), ya que tomamos el objeto io, es decir la conexión completa y de esta manera enviamos a todos los clientes conectados.  También hemos utilizado el mismo nombre de evento 'chat:message' para emitir el mensaje de vuelta al cliente, aunque se pudo haber utilizado un nombre diferente, en todo caso en el cliente debemos recibirlo con el mismo nombre que se envió.
 
 6) En el lado del cliente, para recibir estos datos y mostrarlos en la sección de outputs que hemos creado, utilizamos lo siguiente para definir un nuevo evento 'chat:message' (aunque se puede usar otro diferente)
-
+    ~~~
     socket.on('chat:message', (data) => {  
         console.log(data);
         output.innerHTML += `<p><strong>${data.username}</strong>: ${data.message}</p>`
     });
-
-Las comillas invertidas se utilizan para colocar javascript dentro del texto con ${}.
-Si probamos este código en al menos dos ventanas del chat, podemos ver que los mensajes que enviemos desde cualquiera de las ventanas, aparecerán en todas las demás ventanas de los clientes conectados.
+    ~~~
+    Las comillas invertidas se utilizan para colocar javascript dentro del texto con ${}.
+    Si probamos este código en al menos dos ventanas del chat, podemos ver que los mensajes que enviemos desde cualquiera de las ventanas, aparecerán en todas las demás ventanas de los clientes conectados.
 
 7) Podemos agregar otros eventos, por ejemplo cuando un usuario esté escribiendo un mensaje, agregamos el siguiente código en el javascript del cliente chat.js:
-
+    ~~~
     message.addEventListener('keypress', () => {
         socket.emit('chat:typing' username.value);
     });
+    ~~~
+    De esta manera al tipear texto dentro del input del mensaje se estará disparando el evento keypress y se estará enviando el nombre del usuario que está escribiendo, etiquetado con el evento 'chat:typing'.  Entonces a través de este nombre podemos recibirlo en el servidor.
 
-De esta manera al tipear texto dentro del input del mensaje se estará disparando el evento keypress y se estará enviando el nombre del usuario que está escribiendo, etiquetado con el evento 'chat:typing'.  Entonces a través de este nombre podemos recibirlo en el servidor.
-
-7.1) En el evento 'keypress' del input del mensaje, también podemos chequear si se ha pulsado la tecla enter, de esta forma enviamos el mensaje al servidor al detectar esta tecla:
-
-    message.addEventListener('keypress', (e) => {
-        socket.emit('chat:typing', username.value);
-        if (e.code=='Enter'){
-            socket.emit('chat:message', {
-                username: username.value, 
-                message: message.value
-            });
-        }
-    });
+    7.1) En el evento 'keypress' del input del mensaje, también podemos chequear si se ha pulsado la tecla enter, de esta forma enviamos el mensaje al servidor al detectar esta tecla:
+        
+        message.addEventListener('keypress', (e) => {
+            socket.emit('chat:typing', username.value);
+            if (e.code=='Enter'){
+                socket.emit('chat:message', {
+                    username: username.value, 
+                    message: message.value
+                });
+            }
+        });
+       
 
 8) En el servidor, en index.js; agregamos la escucha al evento 'chat:typing', entonces:
 
-    socket.on('chat:typing', (data) => {
-        socket.broadcast.emit('chat:typing', data);
-    })
 
-Al colocar socket.broadcast.emit() en lugar de solamente socket.emit(), estaremos emitiendo el mensaje a todos los clientes excepto al que envió el evento inicialmente. Esto es útil, ya que queremos que la información acerca de quien está escribiendo se envíe a todos los clientes excepto al que está escribiendo, ya que no es necesaria.  Nótese que de nuevo se utiliza el mismo nombre para el evento 'chat:typing', aunque pudo utilizarse un nombre distinto.
+        socket.on('chat:typing', (data) => {
+            socket.broadcast.emit('chat:typing', data);
+        })
+
+
+    Al colocar socket.broadcast.emit() en lugar de solamente socket.emit(), estaremos emitiendo el mensaje a todos los clientes excepto al que envió el evento inicialmente. Esto es útil, ya que queremos que la información acerca de quien está escribiendo se envíe a todos los clientes excepto al que está escribiendo, ya que no es necesaria.  Nótese que de nuevo se utiliza el mismo nombre para el evento 'chat:typing', aunque pudo utilizarse un nombre distinto.
 
 9) Ahora agregamos la escucha del evento 'chat:typing' en el lado del cliente en el archivo chat.js, así:
 
-    socket.on('chat:typing', (data) => {  
-        actions.innerHTML = `<p><em>${data} is typing a message...</em></p>`;
-    });
+        socket.on('chat:typing', (data) => {  
+            actions.innerHTML = `<p><em>${data} is typing a message...</em></p>`;
+        });
 
 10) Para que el mensaje de que el usuario está tipeando un mensaje no se quede en la sección de actions, podemos colocarlo en blanco al recibir el mensaje en el cliente, en el evento 'chat:message'
 
-    actions.innerHTML = '';
+        actions.innerHTML = '';
 
