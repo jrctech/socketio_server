@@ -34,9 +34,10 @@
 # Para comenzar a desarrollar el código del servidor:
 
 1) Comenzamos por configurar express, para ello requerimos el módulo con require() y lo ejecutamos almacenando el objeto que nos devuelve en una constante llamada app:
-
-    ```const express = require('express');
-    const app = express();```
+    ~~~
+    const express = require('express');
+    const app = express();
+    ~~~
 
 2) Establecemos una sección en nuestro archivo index.js que contendrá las configuraciones (app.set()) y ejecutamos allí la instrucción para configurar el puerto, indicandole que utilice el puerto preconfigurado por el sistema si existe alguno, o de otro modo utilice el puerto 3000:
 
