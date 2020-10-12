@@ -6,7 +6,7 @@
 Para mayores detalles ver el archivo [apuntes.md](https://github.com/jrctech/socketio_server/blob/master/apuntes.md), el cual posee toda la documentación requerida para desarrollar esta aplicación desde cero.
 
 # Nota:
-Si se descarga este repositorio desde gitHub, instalar las dependencias del proyecto mediante la consola, ejecutando el comando:
+Si se descarga este repositorio desde GitHub, instalar las dependencias del proyecto mediante la consola, ejecutando el comando:
 
         npm i
 
