@@ -1,0 +1,4 @@
+# Ignorar la carpeta de módulos de node.js:
+# Si se está clonando el repositorio y no se tiene dicha carpeta, instalar las dependencias utilizando el comando: npm install
+
+node_modules/
