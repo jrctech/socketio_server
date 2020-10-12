@@ -1,5 +1,5 @@
 # Para comenzar a configurar el nuevo proyecto:
-# ________________________________________________________________________________________________________
+
 1) Crear carpeta del proyecto (p.ej en el escritorio), en este caso se llama socketio_server
 
 2) Arrastrar la carpeta al editor (p.ej usando visual studio code)
@@ -7,12 +7,14 @@
 3) Abrir una terminal o bash, en visual studio code ya esta integrada y abre en la carpeta del proyecto
 
 4) ejecutar el comando:
-    npm init --yes
+    `npm init --yes`
 
    Esto creará el archivo package.json con toda la información del proyecto y sus dependencias.
 
 5) Instalar las dependencias del proyecto utilizando el comando:
-    npm install express socket.io
+
+    `npm install express socket.io`
+
     Esto instalará los módulos express y socket.io en la carpeta del proyecto.
 
 6) Creamos el archivo index.js y escribimos tan solo un console.log('Hello World');
@@ -28,8 +30,6 @@
     npm run dev
     Esto iniciará la consola con el nuevo paquete y así cuando detecte que hacemos cambios en el código, éste reiniciará automáticamente el servidor.
     
-# ________________________________________________________________________________________________________
-
 # Para comenzar a desarrollar el código del servidor:
 
 1) Comenzamos por configurar express, para ello requerimos el módulo con require() y lo ejecutamos almacenando el objeto que nos devuelve en una constante llamada app:
@@ -66,7 +66,6 @@ Una vez hecho esto si refrescamos la página en el navegador vemos que nos muest
 Igualmente podemos agregar un archivo de javascript e incluirlo a través de la etiqueta <script> de html.  Llamamos este archivo chat.js.
 Hasta este punto ya hemos configurado nuestro servidor para funcionar con los archivos html, css y javascript necesarios para el front end, así que comenzamos a desarrollar el código de nuestra aplicación usando el módulo socketio.
 
-# ________________________________________________________________________________________________________
 # Para comenzar a utilizar el módulo socket.io:
 
 1) Empezamos por requerir el módulo con:
@@ -106,8 +105,6 @@ De esta manera recibimos la información del socket del cliente en el parámetro
 6) El objeto io() que ejecutamos recientemente en el archivo chat.js, podemos guardarlo en una constante llamada socket, para poder acceder a él desde el javascript que enviamos al cliente, así:
 
     const socket = io();
-
-# ________________________________________________________________________________________________________
 
 # Para escribir el código del chat:
 
