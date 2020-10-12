@@ -1,4 +1,4 @@
-# Para comenzar a configurar el nuevo proyecto:
+Para comenzar a configurar el nuevo proyecto:
 __________________________________________________________________________________________________________
 1) Crear carpeta del proyecto (p.ej en el escritorio), en este caso se llama socketio_server
 
