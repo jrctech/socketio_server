@@ -68,20 +68,22 @@ En esta sección colocamos la instrucción:
 
     Una vez hecho esto si refrescamos la página en el navegador vemos que nos muestra el index.html que habíamos creado previamente.
 
-7) Una vez hecho esto ya podemos agregar un archivo css con nuestros estilos, por ejemplo main.css y relacionarlo a nuestra página web con la etiqueta <link> de html.
-Igualmente podemos agregar un archivo de javascript e incluirlo a través de la etiqueta <script> de html.  Llamamos este archivo chat.js.
+7) Una vez hecho esto ya podemos agregar un archivo css con nuestros estilos, por ejemplo main.css y relacionarlo a nuestra página web con la etiqueta `<link>` de html.
+Igualmente podemos agregar un archivo de javascript e incluirlo a través de la etiqueta `<script>` de html.  Llamamos este archivo chat.js.
 
     Hasta este punto ya hemos configurado nuestro servidor para funcionar con los archivos html, css y javascript necesarios para el front end, así que comenzamos a desarrollar el código de nuestra aplicación usando el módulo socketio.
 
 # Para comenzar a utilizar el módulo socket.io:
 
 1) Empezamos por requerir el módulo con:
-    const SocketIo = require('socket.io');
+    `const SocketIo = require('socket.io');`
 
 2) En la línea que inicia nuestro servidor, almacenamos nuestro servidor en una constante llamada server, así:
+    ~~~
     const server = app.listen(app.get('port'), () => {
         console.log('Server started on port: ', app.get('port'));
     });
+    ~~~
 
 luego, para configurar el módulo socket.io, necesitamos pasarle la configuración de nuestro servidor ya creado; para ello definimos despues de iniciar el servidor, lo siguiente:
     const io = SocketIo(server);
