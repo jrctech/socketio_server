@@ -41,32 +41,37 @@
 
 2) Establecemos una sección en nuestro archivo index.js que contendrá las configuraciones (app.set()) y ejecutamos allí la instrucción para configurar el puerto, indicandole que utilice el puerto preconfigurado por el sistema si existe alguno, o de otro modo utilice el puerto 3000:
 
-    app.set('port', process.env.PORT || 3000);
+    `app.set('port', process.env.PORT || 3000);`
 
     process.env.PORT es una variable del sistema operativo por asi decirlo...
 
 3) Una vez configurado, indicamos la instrucción para escuchar el puerto:
+    ~~~
     app.listen(app.get('port'), () => {
         console.log('Server started on port: ', app.get('port'));
     });
+    ~~~
 
 4) Observamos en la consola y ya el servidor debe estar iniciado en el puerto correspondiente, al entrar con el navegador a la URL: localhost:3000, se debe mostrar el mensaje 'Cannot GET /'.  Esto es debido a que no hemos configurado las rutas. Para ello creamos dentro del proyecto la carpeta public, que contendrá todos los archivos html, ccs y javascript correspondientes al front end, y dentro de ésta creamos el archivo index.html y tan solo escribimos de momento un sencillo hola mundo.
 
 5) Incluimos un módulo de node.js llamado Path, el cual nos ayuda a facilitar el manejo de las rutas a los archivos.
-    const path = require('path');
+    `const path = require('path');`
 
 6) Creamos una sección en index.js, incluyendola antes de la instrucción que inicia el servidor; la cual en comentarios podemos llamar static files, para indicar que allí incluiremos instrucciones para enviar los archivos estáticos que el navegador tendrá que solicitar mediante peticiones a nuestro servidor. 
 En esta sección colocamos la instrucción:
 
-    app.use(express.static(path.join(__dirname, 'public')));
+    `app.use(express.static(path.join(__dirname, 'public')));`
 
-Dicha instrucción indica que la ruta que express utilizará para los archivos estáticos será la que especificamos, y para ello usamos el módulo path para concatenar la ruta del directorio donde se encuentra nuestro proyecto (__dirname) y la carpeta public.
-Esto se podría hacer sin ocupar el módulo path, sin embargo en windows para especificar una ruta, se utiliza barra invertida, mientras que en otros sistemas se usa la barra sin invertir; entonces el módulo path nos ayuda a manejar estas cosas independientemente del sistema donde se ejecute nuestro servidor.
-Una vez hecho esto si refrescamos la página en el navegador vemos que nos muestra el index.html que habíamos creado previamente.
+    Dicha instrucción indica que la ruta que express utilizará para los archivos estáticos será la que especificamos, y para ello usamos el módulo path para concatenar la ruta del directorio donde se encuentra nuestro proyecto (__dirname) y la carpeta public.
+
+    Esto se podría hacer sin ocupar el módulo path, sin embargo en windows para especificar una ruta, se utiliza barra invertida, mientras que en otros sistemas se usa la barra sin invertir; entonces el módulo path nos ayuda a manejar estas cosas independientemente del sistema donde se ejecute nuestro servidor.
+
+    Una vez hecho esto si refrescamos la página en el navegador vemos que nos muestra el index.html que habíamos creado previamente.
 
 7) Una vez hecho esto ya podemos agregar un archivo css con nuestros estilos, por ejemplo main.css y relacionarlo a nuestra página web con la etiqueta <link> de html.
 Igualmente podemos agregar un archivo de javascript e incluirlo a través de la etiqueta <script> de html.  Llamamos este archivo chat.js.
-Hasta este punto ya hemos configurado nuestro servidor para funcionar con los archivos html, css y javascript necesarios para el front end, así que comenzamos a desarrollar el código de nuestra aplicación usando el módulo socketio.
+
+    Hasta este punto ya hemos configurado nuestro servidor para funcionar con los archivos html, css y javascript necesarios para el front end, así que comenzamos a desarrollar el código de nuestra aplicación usando el módulo socketio.
 
 # Para comenzar a utilizar el módulo socket.io:
 
