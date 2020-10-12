@@ -3,4 +3,4 @@
 
 **Ejemplo de creación de una aplicación de chat utilizando websockets, empleando node.js, express y socket.io en el back end y utilizando el mismo socket.io en el front end.**
 
-Para mayores detalles ver el archivo [apuntes.txt](https://github.com/jrctech/socketio_server/blob/master/apuntes.md), el cual posee toda la documentación requerida para desarrollar esta aplicación desde cero.
+Para mayores detalles ver el archivo [apuntes.md](https://github.com/jrctech/socketio_server/blob/master/apuntes.md), el cual posee toda la documentación requerida para desarrollar esta aplicación desde cero.
