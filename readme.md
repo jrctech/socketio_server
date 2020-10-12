@@ -1,0 +1,1 @@
+Ejemplo de creación de una aplicación de chat utilizando websockets, empleando node.js, express y socket.io en el back end y utilizando el mismo socket.io en el front end.
